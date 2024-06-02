@@ -79,7 +79,7 @@
         const interval = setInterval(() => {
             console.log('Проверка наличия кнопки...');
             createButton();
-        }, 1500);
+        }, 30500);
     }
 
     window.addEventListener('load', () => {
