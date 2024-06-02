@@ -32,13 +32,9 @@
                         firstAccountID = accountID;
                     }
 
-                    let codeElement = dataCell.querySelector('code');
-                    let cellColor = codeElement ? getComputedStyle(codeElement).color : getComputedStyle(dataCell).color;
-
-                    let span = document.createElement('span');
-                    span.style.color = cellColor;
-                    span.textContent = ` ID аккаунта: ${accountID}`;
-                    dataCell.appendChild(span);
+                    let codeElement = document.createElement('code');
+                    codeElement.textContent = ` ID аккаунта: ${accountID}`;
+                    dataCell.appendChild(codeElement);
                 }
             }
         });
