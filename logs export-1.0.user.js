@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         logs export
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Скрипт для экспорта логов со страницы с логами
 // @author       vk.com/okeyflexer
-// @match https://arizonarp.logsparser.info/*
+// @match        https://arizonarp.logsparser.info/*
 // @grant        none
 // ==/UserScript==
 
@@ -12,19 +12,26 @@
     'use strict';
 
     // Функция для создания кнопки
-    function createButton() {
+    function createExportButton() {
         // Находим контейнер для кнопок по указанному селектору
         const buttonContainer = document.querySelector('.filter-buttons');
 
         // Если контейнер найден, создаем кнопку и добавляем её в контейнер
         if (buttonContainer) {
-            const button = document.createElement('button');
-            button.innerHTML = 'Выгрузить в txt';
-            button.className = 'btn btn-success';
-            button.style.marginRight = '10px';
-            button.onclick = exportLogs;
+            let existingButton = document.querySelector('.filter-buttons .btn-success.export-button');
 
-            buttonContainer.appendChild(button);
+            if (!existingButton) {
+                const button = document.createElement('button');
+                button.innerHTML = 'Выгрузить в txt';
+                button.className = 'btn btn-success export-button';
+                button.style.marginRight = '10px';
+                button.onclick = exportLogs;
+
+                buttonContainer.appendChild(button);
+                console.log('Кнопка "Выгрузить в txt" была добавлена.');
+            } else {
+                console.log('Кнопка "Выгрузить в txt" уже существует.');
+            }
         } else {
             console.error('Контейнер не найден');
         }
@@ -56,18 +63,16 @@
         link.click();
     }
 
-    // Проверка загрузки страницы и наличия контейнера для кнопок
-    function checkLoaded() {
-        const container = document.querySelector('.filter-buttons');
-        if (container) {
-            createButton();
-        } else {
-            // Если контейнер не найден, повторяем проверку
-            setTimeout(checkLoaded, 2500);
-        }
+    // Функция для проверки и повторного добавления кнопки через определенные промежутки времени
+    function monitorExportButton() {
+        const interval = setInterval(() => {
+            console.log('Проверка наличия кнопки "Выгрузить в txt"...');
+            createExportButton();
+        }, 15500);
     }
 
-    window.addEventListener('load', function() {
-        checkLoaded();
+    window.addEventListener('load', () => {
+        createExportButton();
+        monitorExportButton();
     });
 })();
