@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         extract account id
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @description  Скрипт для автоматического вывода ID аккаунта. Также скрипт создает кнопку для перехода на страницу со всеми привязками этого человека, используя вместо никнейма ID аккаунта, что упрощает действия логера (аналог шаблонов от SetHP Script, но сразу с ID аккаунта, что будет чуть удобнее для такой задачи, как проверка привязок).
 // @author       vk.com/okeyflexer
 // @match        https://arizonarp.logsparser.info/*
@@ -43,20 +43,20 @@
             }
         });
 
-        createButton();
+        createAccountIDButton();
     }
 
     // Функция для создания кнопки
-    function createButton() {
+    function createAccountIDButton() {
         const buttonContainer = document.querySelector('.filter-buttons');
 
         if (buttonContainer && targetAccountID) {
-            let existingButton = document.querySelector('.filter-buttons .btn-success');
+            let existingButton = document.querySelector('.filter-buttons .btn-success.account-id-button');
 
             if (!existingButton) {
                 const button = document.createElement('button');
                 button.innerHTML = 'Привязки';
-                button.className = 'btn btn-success';
+                button.className = 'btn btn-success account-id-button';
                 button.style.marginRight = '10px';
                 button.onclick = (event) => {
                     event.preventDefault();
@@ -65,25 +65,25 @@
                 };
 
                 buttonContainer.appendChild(button);
-                console.log('Кнопка была добавлена.');
+                console.log('Кнопка "Привязки" была добавлена.');
             } else {
-                console.log('Кнопка уже существует.');
+                console.log('Кнопка "Привязки" уже существует.');
             }
         } else if (!buttonContainer) {
             console.error('Контейнер не найден');
         }
     }
 
-    // Функция для повторного добавления кнопки через определенные промежутки времени
-    function monitorButton() {
+    // Функция для проверки и повторного добавления кнопки через определенные промежутки времени
+    function monitorAccountIDButton() {
         const interval = setInterval(() => {
-            console.log('Проверка наличия кнопки...');
-            createButton();
-        }, 30500);
+            console.log('Проверка наличия кнопки "Привязки"...');
+            createAccountIDButton();
+        }, 15500);
     }
 
     window.addEventListener('load', () => {
         addAccountID();
-        monitorButton();
+        monitorAccountIDButton();
     });
 })();
