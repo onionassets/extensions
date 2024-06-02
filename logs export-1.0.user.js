@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         logs export
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Скрипт для экспорта логов со страницы с логами
 // @author       vk.com/okeyflexer
 // @match https://arizonarp.logsparser.info/*
@@ -21,17 +21,19 @@
             const button = document.createElement('button');
             button.innerHTML = 'Выгрузить в txt';
             button.className = 'btn btn-success';
-            button.style.marginLeft = '10px';
+            button.style.marginRight = '10px';
             button.onclick = exportLogs;
 
             buttonContainer.appendChild(button);
         } else {
-            console.error('Контйнер не найден');
+            console.error('Контейнер не найден');
         }
     }
 
     // Функция для экспорта логов
-    function exportLogs() {
+    function exportLogs(event) {
+        event.preventDefault(); // Предотвращаем перезапуск страницы
+
         const logs = [];
         // Находим все строки таблицы логов
         const rows = document.querySelectorAll('table tbody tr');
