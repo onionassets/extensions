@@ -87,7 +87,7 @@
         const interval = setInterval(() => {
             console.log('Проверка наличия кнопки "Привязки"...');
             createAccountIDButton();
-        }, 1500);
+        }, 5500);
     }
 
     window.addEventListener('load', () => {
